@@ -138,6 +138,32 @@
   <script type="module" src="scripts/admin.js"></script>
   <script type="module" src="scripts/main.js"></script>
 
+<!-- MODAL CRIAR ANÚNCIO -->
+<div id="modal-anuncio" class="modal hidden">
+  <div class="modal-content">
+    <h3>Novo anúncio</h3>
+
+    <label>
+      Título
+      <input type="text" id="anuncio-titulo" />
+    </label>
+
+    <label>
+      Descrição
+      <textarea id="anuncio-descricao"></textarea>
+    </label>
+
+    <div class="modal-actions">
+      <button id="cancelar-anuncio" class="btn btn-secondary">
+        Cancelar
+      </button>
+      <button id="salvar-anuncio" class="btn">
+        Publicar
+      </button>
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>

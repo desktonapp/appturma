@@ -3,6 +3,8 @@
 
 import { db, storage } from "./services/firebase.js";
 import { carregarAnuncios } from "./modules/anuncios.js";
+import { carregarAnuncios, initCriarAnuncio } from "./modules/anuncios.js";
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +17,7 @@ function initApp() {
   initState();
   initUI();
   carregarAnuncios();
+  initCriarAnuncio();
 }
 
 
