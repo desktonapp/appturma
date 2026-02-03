@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Turma XI | Teologia SALT-FAP</title>
+  <meta name="description" content="Painel Acadêmico da Turma XI de Teologia do SALT-FAP" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0B2A4A" />
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="styles/base.css" />
+
+  <!-- Favicon / Ícone -->
+  <link rel="icon" href="assets/img/logo-icon.png" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <img 
+      src="assets/img/logo.png" 
+      alt="Turma XI | Teologia SALT-FAP"
+      class="app-logo"
+    />
+
+    <div class="app-title">
+      <h1>Turma XI | Teologia</h1>
+      <span>Painel Acadêmico • SALT-FAP</span>
+    </div>
+
+    <!-- Badge de liderança (oculto por padrão) -->
+    <div id="admin-badge" class="admin-badge hidden">
+      Modo Liderança
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main id="app">
+
+    <!-- HOME -->
+    <section id="home" class="section active">
+
+      <!-- ANÚNCIOS -->
+      <div class="card">
+        <h2>📢 Anúncios</h2>
+        <div id="anuncios-list">
+          <p class="empty">Nenhum anúncio publicado.</p>
+        </div>
+
+        <!-- Botão admin -->
+        <button class="btn admin-only hidden">
+          + Criar anúncio
+        </button>
+      </div>
+
+      <!-- EVENTOS -->
+      <div class="card">
+        <h2>📅 Próximos Eventos</h2>
+        <div id="eventos-list">
+          <p class="empty">Nenhum evento cadastrado.</p>
+        </div>
+
+        <button class="btn admin-only hidden">
+          + Criar evento
+        </button>
+      </div>
+
+      <!-- AVALIAÇÕES -->
+      <div class="card">
+        <h2>📚 Avaliações</h2>
+        <div class="avaliacoes-home">
+          <div>
+            <strong>HOJE</strong>
+            <p class="empty">Nenhuma avaliação hoje.</p>
+          </div>
+          <div>
+            <strong>ESSA SEMANA</strong>
+            <p class="empty">Nenhuma avaliação esta semana.</p>
+          </div>
+          <div>
+            <strong>A SEGUIR</strong>
+            <p class="empty">Nenhuma avaliação futura.</p>
+          </div>
+        </div>
+
+        <button class="btn admin-only hidden">
+          + Criar avaliação
+        </button>
+      </div>
+
+      <!-- VOTAÇÕES -->
+      <div class="card">
+        <h2>🗳️ Votações</h2>
+        <div id="votacoes-list">
+          <p class="empty">Nenhuma votação ativa.</p>
+        </div>
+
+        <button class="btn admin-only hidden">
+          + Criar votação
+        </button>
+      </div>
+
+      <!-- DÚVIDAS -->
+      <div class="card">
+        <h2>❓ Dúvidas & Respostas</h2>
+        <p>
+          Envie sua dúvida para a liderança.
+          As respostas públicas aparecem no mural.
+        </p>
+
+        <button class="btn">
+          Enviar dúvida
+        </button>
+      </div>
+
+      <!-- MONITORIA -->
+      <div class="card disabled">
+        <h2>📘 Monitoria</h2>
+        <p>Disponível no 2º semestre</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="app-footer">
+    <small>
+      Turma XI de Teologia • SALT-FAP
+    </small>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="scripts/admin.js"></script>
+  <script src="scripts/main.js"></script>
+
+</body>
+</html>
