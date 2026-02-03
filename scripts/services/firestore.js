@@ -21,9 +21,7 @@ console.log("firestore.js carregou");
 
 export async function listarAnuncios() {
   const q = query(
-    collection(db, "anuncios"),
-    where("ativo", "==", true),
-    orderBy("criadoEm", "desc")
+    collection(db, "anuncios")
   );
 
   const snapshot = await getDocs(q);
