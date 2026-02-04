@@ -41,7 +41,15 @@ export async function carregarAnuncios() {
         : "";
 
       card.innerHTML = `
-  <strong class="anuncio-titulo">${anuncio.titulo}</strong>
+  <div class="anuncio-topo">
+    <strong class="anuncio-titulo">${anuncio.titulo}</strong>
+
+    ${
+      dataFormatada
+        ? `<span class="anuncio-data">${dataFormatada}</span>`
+        : ""
+    }
+  </div>
 
   ${
     anuncio.categoria
@@ -49,7 +57,7 @@ export async function carregarAnuncios() {
       : ""
   }
 
-  <p>${anuncio.descricao}</p>
+  <p class="anuncio-descricao">${anuncio.descricao}</p>
 
   ${
     window.isAdmin
