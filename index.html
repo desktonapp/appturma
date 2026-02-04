@@ -185,7 +185,67 @@
 </div>
 
 <section id="home" class="section active"></section>
-<section id="avaliacoes" class="section"></section>
+
+<section id="avaliacoes" class="section">
+  <div class="card">
+
+    <div class="avaliacoes-header">
+      <h2>📚 Avaliações</h2>
+
+      <!-- Botão só para liderança (ativa depois) -->
+      <button class="btn admin-only hidden" id="btn-nova-avaliacao">
+        + Nova avaliação
+      </button>
+    </div>
+
+    <!-- Lista de disciplinas -->
+    <div id="avaliacoes-list">
+
+      <!-- Disciplina (modelo) -->
+      <div class="disciplina">
+
+        <div class="disciplina-header">
+          <span class="disciplina-nome">História da Igreja</span>
+          <span class="disciplina-toggle">▶</span>
+        </div>
+
+        <div class="disciplina-conteudo hidden">
+
+          <!-- Avaliação -->
+          <div class="avaliacao-item">
+            <div class="avaliacao-resumo">
+              <span class="avaliacao-tipo prova">Prova</span>
+              <span class="avaliacao-data">20/03</span>
+            </div>
+
+            <div class="avaliacao-descricao hidden">
+              Conteúdo: Capítulos 1 a 5 do livro base.
+            </div>
+          </div>
+
+          <!-- Avaliação -->
+          <div class="avaliacao-item">
+            <div class="avaliacao-resumo">
+              <span class="avaliacao-tipo trabalho">Trabalho</span>
+              <span class="avaliacao-data">28/03</span>
+            </div>
+
+            <div class="avaliacao-descricao hidden">
+              Produzir resenha crítica.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Se não houver disciplinas -->
+      <!-- <p class="empty">Nenhuma disciplina cadastrada.</p> -->
+
+    </div>
+  </div>
+</section>
+
+
 <section id="horarios" class="section"></section>
 <section id="ementas" class="section"></section>
 <section id="calendario" class="section"></section>

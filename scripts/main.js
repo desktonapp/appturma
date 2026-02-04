@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initApp();
   initTabs();
+  initAvaliacoesUI();
+
 });
 
 function initTabs() {
@@ -85,4 +87,25 @@ if (duvidaBtn) {
   });
 }
 
+}
+
+function initAvaliacoesUI() {
+  // Abrir/fechar disciplina
+  document.querySelectorAll(".disciplina-header").forEach(header => {
+    header.addEventListener("click", () => {
+      const conteudo = header.nextElementSibling;
+      const toggle = header.querySelector(".disciplina-toggle");
+
+      conteudo.classList.toggle("hidden");
+      toggle.textContent = conteudo.classList.contains("hidden") ? "▶" : "▼";
+    });
+  });
+
+  // Mostrar descrição da avaliação
+  document.querySelectorAll(".avaliacao-resumo").forEach(resumo => {
+    resumo.addEventListener("click", () => {
+      const descricao = resumo.nextElementSibling;
+      descricao.classList.toggle("hidden");
+    });
+  });
 }
