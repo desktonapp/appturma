@@ -1,5 +1,6 @@
 // anuncios.js
 import { listarAnuncios, criarAnuncio } from "../services/firestore.js";
+import { uploadPDF } from "../services/storage.js";
 
 console.log("anuncios.js carregou");
 
@@ -22,10 +23,17 @@ export async function carregarAnuncios() {
       card.className = "anuncio-item";
 
       card.innerHTML = `
-        <strong>${anuncio.titulo}</strong>
-        <p>${anuncio.descricao}</p>
-      `;
+  <strong>${anuncio.titulo}</strong>
+  <p>${anuncio.descricao}</p>
 
+  ${
+    anuncio.pdfUrl
+      ? `<a href="${anuncio.pdfUrl}" target="_blank" class="pdf-link">
+           📄 Ver PDF
+         </a>`
+      : ""
+  }
+`;
       container.appendChild(card);
     });
 
@@ -59,32 +67,49 @@ export function initCriarAnuncio() {
   });
 
   salvar.addEventListener("click", async () => {
-    const titulo = inputTitulo.value.trim();
-    const descricao = inputDescricao.value.trim();
+  const titulo = inputTitulo.value.trim();
+  const descricao = inputDescricao.value.trim();
+  const file = document.getElementById("anuncio-pdf").files[0];
 
-    if (!titulo || !descricao) {
-      alert("Preencha todos os campos.");
-      return;
+  if (!titulo || !descricao) {
+    alert("Preencha título e descrição.");
+    return;
+  }
+
+  salvar.disabled = true;
+  salvar.textContent = "Publicando...";
+
+  try {
+    let pdfUrl = null;
+
+    if (file) {
+      pdfUrl = await uploadPDF(file);
     }
 
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const token = params.get("token");
+    await criarAnuncio({
+      titulo,
+      descricao,
+      pdfUrl
+    });
 
-      await criarAnuncio({ titulo, descricao }, token);
+    modal.classList.add("hidden");
+    limpar();
+    carregarAnuncios();
 
-      modal.classList.add("hidden");
-      limpar();
-      carregarAnuncios(); // 🔥 recarrega
+  } catch (err) {
+    console.error(err);
+    alert("Erro ao criar anúncio.");
+  } finally {
+    salvar.disabled = false;
+    salvar.textContent = "Publicar";
+  }
+});
 
-    } catch (err) {
-      console.error(err);
-      alert("Erro ao criar anúncio.");
-    }
-  });
 
   function limpar() {
-    inputTitulo.value = "";
-    inputDescricao.value = "";
-  }
+  inputTitulo.value = "";
+  inputDescricao.value = "";
+  document.getElementById("anuncio-pdf").value = "";
+}
+
 }
