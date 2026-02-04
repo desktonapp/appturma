@@ -138,17 +138,38 @@ export async function ocultarAvaliacao(id) {
 // =======================
 
 export async function listarAvaliacoesAtivas() {
-  const q = query(
-    collection(db, "avaliacoes"),
-    where("ativo", "==", true),
-    orderBy("data", "asc")
+  // 1. Buscar disciplinas
+  const disciplinasSnap = await getDocs(
+    query(
+      collection(db, "disciplinas"),
+      where("ativo", "==", true)
+    )
   );
 
-  const snapshot = await getDocs(q);
+  const disciplinasMap = {};
+  disciplinasSnap.forEach(doc => {
+    disciplinasMap[doc.id] = doc.data().nome;
+  });
 
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }));
+  // 2. Buscar avaliações
+  const avaliacoesSnap = await getDocs(
+    query(
+      collection(db, "avaliacoes"),
+      where("ativo", "==", true),
+      orderBy("data", "asc")
+    )
+  );
+
+  // 3. Montar avaliações com nome da disciplina
+  return avaliacoesSnap.docs.map(doc => {
+    const data = doc.data();
+
+    return {
+      id: doc.id,
+      ...data,
+      disciplinaNome: disciplinasMap[data.disciplinaId] || "—"
+    };
+  });
 }
+
 
