@@ -18,17 +18,25 @@ export function initCriarAvaliacao() {
   const cancelar = document.getElementById("cancelar-avaliacao");
 
   document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".btn-nova-avaliacao");
-    if (!btn) return;
+  const btn = e.target.closest(".btn-nova-avaliacao");
+  if (!btn) return;
 
-    modal.dataset.disciplinaId = btn.dataset.disciplinaId;
-    modal.classList.remove("hidden");
-  });
+  limpar(); // 🔥 limpa tudo
+  delete modal.dataset.editando; // 🔥 garante modo CRIAR
+
+  modal.dataset.disciplinaId = btn.dataset.disciplinaId;
+  salvar.textContent = "Criar";
+
+  modal.classList.remove("hidden");
+});
+
 
   cancelar.addEventListener("click", () => {
-    modal.classList.add("hidden");
-    limpar();
-  });
+  modal.classList.add("hidden");
+  limpar();
+  delete modal.dataset.editando;
+});
+
 
   salvar.addEventListener("click", async () => {
   const disciplinaId = modal.dataset.disciplinaId;
@@ -62,7 +70,10 @@ export function initCriarAvaliacao() {
       });
     }
 
-    fecharModal();
+    modal.classList.add("hidden");
+limpar();
+delete modal.dataset.editando;
+
     await carregarAvaliacoes();
 
   } catch (err) {
