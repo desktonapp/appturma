@@ -58,3 +58,42 @@ export async function ocultarAnuncio(id, token) {
     { params: { token } }
   );
 }
+
+/* =======================
+   DISCIPLINAS
+======================= */
+
+export async function listarDisciplinas() {
+  const q = query(
+    collection(db, "disciplinas"),
+    where("ativo", "==", true),
+    orderBy("nome")
+  );
+
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+}
+
+/* =======================
+   AVALIAÇÕES
+======================= */
+
+export async function listarAvaliacoesPorDisciplina(disciplinaId) {
+  const q = query(
+    collection(db, "avaliacoes"),
+    where("ativo", "==", true),
+    where("disciplinaId", "==", disciplinaId),
+    orderBy("data")
+  );
+
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+}
