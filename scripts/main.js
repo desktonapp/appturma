@@ -10,7 +10,29 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('[App] Turma XI | Teologia SALT-FAP iniciado');
 
   initApp();
+  initTabs();
 });
+
+function initTabs() {
+  const buttons = document.querySelectorAll(".nav-item");
+  const sections = document.querySelectorAll(".section");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      const target = button.dataset.section;
+
+      // Ativa botão
+      buttons.forEach(b => b.classList.remove("active"));
+      button.classList.add("active");
+
+      // Ativa section
+      sections.forEach(section => {
+        section.classList.toggle("active", section.id === target);
+      });
+    });
+  });
+}
+
 
 function initApp() {
   initState();
