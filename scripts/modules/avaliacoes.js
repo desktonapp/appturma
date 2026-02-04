@@ -37,65 +37,81 @@ export async function carregarAvaliacoes() {
       const header = bloco.querySelector(".disciplina-header");
       const toggle = bloco.querySelector(".disciplina-toggle");
 
-      header.addEventListener("click", async () => {
-  const aberto = !conteudo.classList.contains("hidden");
+        header.addEventListener("click", async () => {
+        const aberto = !conteudo.classList.contains("hidden");
 
-  conteudo.classList.toggle("hidden");
-  toggle.textContent = aberto ? "▶" : "▼";
+        conteudo.classList.toggle("hidden");
+        toggle.textContent = aberto ? "▶" : "▼";
 
-  if (!aberto && conteudo.dataset.loaded !== "true") {
-    try {
-      const avaliacoes = await listarAvaliacoesPorDisciplina(disciplina.id);
+        if (!aberto && conteudo.dataset.loaded !== "true") {
+          try {
+            const avaliacoes = await listarAvaliacoesPorDisciplina(disciplina.id);
 
-      if (avaliacoes.length === 0) {
-        conteudo.innerHTML = "<p class='empty'>Nenhuma avaliação cadastrada.</p>";
-      } else {
-        conteudo.innerHTML = "";
+            if (avaliacoes.length === 0) {
+              conteudo.innerHTML =
+                "<p class='empty'>Nenhuma avaliação cadastrada.</p>";
+            } else {
+              conteudo.innerHTML = "";
 
-        avaliacoes.forEach(av => {
-          const item = document.createElement("div");
-          item.className = "avaliacao-item";
+              avaliacoes.forEach(av => {
+                const item = document.createElement("div");
+                item.className = "avaliacao-item";
 
-          const data = av.data?.toDate
-            ? av.data.toDate().toLocaleDateString("pt-BR")
-            : "";
+                const data = av.data?.toDate
+                  ? av.data.toDate().toLocaleDateString("pt-BR")
+                  : "";
 
-          item.innerHTML = `
-            <div class="avaliacao-resumo">
-              <span class="avaliacao-tipo ${av.tipo}">
-                ${av.tipo === "prova" ? "Prova" : "Trabalho"}
-              </span>
+                item.innerHTML = `
+                  <div class="avaliacao-resumo">
+                    <span class="avaliacao-tipo ${av.tipo}">
+                      ${av.tipo === "prova" ? "Prova" : "Trabalho"}
+                    </span>
 
-              <span class="avaliacao-titulo">
-                ${av.titulo}
-              </span>
+                    <span class="avaliacao-titulo">
+                      ${av.titulo}
+                    </span>
 
-              <span class="avaliacao-data">
-                ${data}
-              </span>
-            </div>
+                    <span class="avaliacao-data">
+                      ${data}
+                    </span>
+                  </div>
 
-            <div class="avaliacao-descricao hidden">
-              ${av.descricao || ""}
-            </div>
-          `;
+                  <div class="avaliacao-descricao hidden">
+                    ${av.descricao || ""}
+                  </div>
+                `;
 
-          item.querySelector(".avaliacao-resumo")
-            .addEventListener("click", () => {
-              item.querySelector(".avaliacao-descricao")
-                .classList.toggle("hidden");
-            });
+                item
+                  .querySelector(".avaliacao-resumo")
+                  .addEventListener("click", () => {
+                    item
+                      .querySelector(".avaliacao-descricao")
+                      .classList.toggle("hidden");
+                  });
 
-          conteudo.appendChild(item);
-        });
-      }
+                conteudo.appendChild(item);
+              });
+            }
 
-      conteudo.dataset.loaded = "true";
+            conteudo.dataset.loaded = "true";
 
-    } catch (err) {
-      console.error("Erro ao carregar avaliações da disciplina:", err);
-      conteudo.innerHTML =
-        "<p class='empty'>Erro ao carregar avaliações.</p>";
+          } catch (err) {
+            console.error(
+              "Erro ao carregar avaliações da disciplina:",
+              err
+            );
+            conteudo.innerHTML =
+              "<p class='empty'>Erro ao carregar avaliações.</p>";
+          }
+        }
+      });
+
+      container.appendChild(bloco);
     }
-  }
 
+  } catch (err) {
+    console.error(err);
+    container.innerHTML =
+      "<p class='empty'>Erro ao carregar avaliações.</p>";
+  }
+}
