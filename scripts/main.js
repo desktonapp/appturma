@@ -2,7 +2,6 @@
 // Inicialização geral do app
 
 import { db, storage } from "./services/firebase.js";
-import { carregarAnuncios } from "./modules/anuncios.js";
 import { carregarAnuncios, initCriarAnuncio } from "./modules/anuncios.js";
 
 
@@ -49,11 +48,11 @@ function initUI() {
  */
 function bindButtons() {
   // Botões de criação (liderança)
-  document.querySelectorAll('.admin-only').forEach(button => {
-    button.addEventListener('click', () => {
-      alert('Ação disponível apenas no modo liderança.\n(Funcionalidade será implementada em breve)');
-    });
-  });
+//  document.querySelectorAll('.admin-only').forEach(button => {
+//    button.addEventListener('click', () => {
+//      alert('Ação disponível apenas no modo liderança.\n(Funcionalidade será implementada em breve)');
+//    });
+//  });
 
   // Botão de enviar dúvida
   const duvidaBtn = document.querySelector('button:not(.admin-only)');

@@ -1,6 +1,7 @@
 // anuncios.js
-import { listarAnuncios } from "../services/firestore.js";
-import { carregarAnuncios } from "./anuncios.js";
+import { listarAnuncios, criarAnuncio } from "../services/firestore.js";
+
+console.log("anuncios.js carregou");
 
 export async function carregarAnuncios() {
   const container = document.getElementById("anuncios-list");
@@ -33,8 +34,6 @@ export async function carregarAnuncios() {
     container.innerHTML = "<p class='empty'>Erro ao carregar anúncios.</p>";
   }
 }
-
-import { criarAnuncio } from "../services/firestore.js";
 
 export function initCriarAnuncio() {
   if (!window.isAdmin) return;
@@ -76,7 +75,7 @@ export function initCriarAnuncio() {
 
       modal.classList.add("hidden");
       limpar();
-      carregarAnuncios(); // 🔥 atualiza na hora
+      carregarAnuncios(); // 🔥 recarrega
 
     } catch (err) {
       console.error(err);
