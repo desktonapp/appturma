@@ -179,3 +179,32 @@ main {
   color: white;
 }
 
+.anuncio-item {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.anuncio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.anuncio-titulo {
+  font-weight: 600;
+}
+
+.anuncio-data {
+  font-size: 0.75rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.anuncio-descricao {
+  margin-top: 6px;
+  font-size: 0.9rem;
+}

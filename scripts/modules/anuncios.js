@@ -15,17 +15,24 @@ export async function carregarAnuncios() {
       return;
     }
 
-    container.innerHTML = "";
+    const data = anuncio.criadoEm?.toDate
+  ? anuncio.criadoEm.toDate()
+  : null;
 
-    anuncios.forEach(anuncio => {
-      if (anuncio.ativo === false) return;
+const dataFormatada = data
+  ? data.toLocaleDateString("pt-BR") + " " +
+    data.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
+  : "";
 
-      const card = document.createElement("div");
-      card.className = "anuncio-item";
+card.innerHTML = `
+  <div class="anuncio-header">
+    <span class="anuncio-titulo">${anuncio.titulo}</span>
+    <span class="anuncio-data">${dataFormatada}</span>
+  </div>
 
-      card.innerHTML = `
-  <strong>${anuncio.titulo}</strong>
-  <p>${anuncio.descricao}</p>
+  <div class="anuncio-descricao">
+    ${anuncio.descricao}
+  </div>
 
   ${
     window.isAdmin
@@ -35,6 +42,7 @@ export async function carregarAnuncios() {
       : ""
   }
 `;
+
 
 if (window.isAdmin) {
   const btnOcultar = card.querySelector("button[data-id]");
