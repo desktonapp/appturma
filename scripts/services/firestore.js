@@ -108,3 +108,15 @@ export async function ocultarDisciplina(id) {
     ativo: false
   });
 }
+
+// =======================
+// AVALIAÇÕES - ADMIN
+// =======================
+
+export async function criarAvaliacao(dados) {
+  return addDoc(collection(db, "avaliacoes"), {
+    ...dados,
+    ativo: true,
+    criadoEm: serverTimestamp()
+  });
+}

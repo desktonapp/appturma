@@ -43,13 +43,33 @@ export async function carregarAvaliacoes() {
     <span class="disciplina-toggle">▶</span>
   </div>
 
-  <div class="disciplina-conteudo hidden">
+<div class="disciplina-conteudo hidden">
+
+  ${
+    window.isAdmin
+      ? `
+    <button
+      class="btn btn-nova-avaliacao admin-only"
+      data-disciplina-id="${disciplina.id}"
+    >
+      + Nova avaliação
+    </button>
+    `
+      : ""
+  }
+
+  <div class="avaliacoes-container">
     <p class="empty">Carregando...</p>
   </div>
+</div>
+
 `;
 
 
       const conteudo = bloco.querySelector(".disciplina-conteudo");
+      const avaliacoesContainer =
+  conteudo.querySelector(".avaliacoes-container");
+
       const header = bloco.querySelector(".disciplina-header");
       const toggle = bloco.querySelector(".disciplina-toggle");
 
@@ -101,10 +121,10 @@ if (window.isAdmin) {
             const avaliacoes = await listarAvaliacoesPorDisciplina(disciplina.id);
 
             if (avaliacoes.length === 0) {
-              conteudo.innerHTML =
+              avaliacoesContainer.innerHTML =
                 "<p class='empty'>Nenhuma avaliação cadastrada.</p>";
             } else {
-              conteudo.innerHTML = "";
+              avaliacoesContainer.innerHTML = "";
 
               avaliacoes.forEach(av => {
                 const item = document.createElement("div");
@@ -142,7 +162,7 @@ if (window.isAdmin) {
                       .classList.toggle("hidden");
                   });
 
-                conteudo.appendChild(item);
+                avaliacoesContainer.appendChild(item);
               });
             }
 
@@ -153,7 +173,7 @@ if (window.isAdmin) {
               "Erro ao carregar avaliações da disciplina:",
               err
             );
-            conteudo.innerHTML =
+            avaliacoesContainer.innerHTML =
               "<p class='empty'>Erro ao carregar avaliações.</p>";
           }
         }

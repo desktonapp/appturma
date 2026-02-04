@@ -5,6 +5,7 @@ import { db, storage } from "./services/firebase.js";
 import { carregarAnuncios, initCriarAnuncio } from "./modules/anuncios.js";
 import { carregarAvaliacoes } from "./modules/avaliacoes.js";
 import { initCriarDisciplina } from "./modules/disciplinas.js";
+import { initCriarAvaliacao } from "./modules/avaliacoes-admin.js";
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -43,6 +44,8 @@ function initApp() {
   initCriarAnuncio();
   carregarAvaliacoes();
   initCriarDisciplina();
+  initCriarAvaliacao();
+
 }
 
 

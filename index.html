@@ -204,6 +204,52 @@
   </div>
 </div>
 
+<!-- MODAL CRIAR AVALIAÇÃO -->
+<div id="modal-avaliacao" class="modal hidden">
+  <div class="modal-content">
+    <h3>Nova avaliação</h3>
+
+    <label>
+      Tipo
+      <select id="avaliacao-tipo">
+        <option value="prova">Prova</option>
+        <option value="trabalho">Trabalho</option>
+      </select>
+    </label>
+
+    <label>
+      Título
+      <input
+        type="text"
+        id="avaliacao-titulo"
+        placeholder="Ex: Prova I – História da Igreja"
+      />
+    </label>
+
+    <label>
+      Data
+      <input type="date" id="avaliacao-data" />
+    </label>
+
+    <label>
+      Descrição
+      <textarea
+        id="avaliacao-descricao"
+        placeholder="Conteúdo, orientações, observações..."
+      ></textarea>
+    </label>
+
+    <div class="modal-actions">
+      <button id="cancelar-avaliacao" class="btn btn-secondary">
+        Cancelar
+      </button>
+      <button id="salvar-avaliacao" class="btn">
+        Criar
+      </button>
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>
