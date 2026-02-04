@@ -94,3 +94,17 @@ export async function criarDisciplina(nome) {
     criadoEm: serverTimestamp()
   });
 }
+
+export async function editarDisciplina(id, novoNome) {
+  const ref = doc(db, "disciplinas", id);
+  return updateDoc(ref, {
+    nome: novoNome
+  });
+}
+
+export async function ocultarDisciplina(id) {
+  const ref = doc(db, "disciplinas", id);
+  return updateDoc(ref, {
+    ativo: false
+  });
+}

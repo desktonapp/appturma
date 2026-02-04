@@ -1,6 +1,8 @@
 import {
   listarDisciplinas,
-  listarAvaliacoesPorDisciplina
+  listarAvaliacoesPorDisciplina,
+  editarDisciplina,
+  ocultarDisciplina
 } from "../services/firestore.js";
 
 console.log("AVALIAÇÕES.JS NOVO CARREGADO");
@@ -24,18 +26,69 @@ export async function carregarAvaliacoes() {
       bloco.className = "disciplina";
 
       bloco.innerHTML = `
-        <div class="disciplina-header">
-          <span class="disciplina-nome">${disciplina.nome}</span>
-          <span class="disciplina-toggle">▶</span>
-        </div>
-        <div class="disciplina-conteudo hidden">
-          <p class="empty">Carregando...</p>
-        </div>
-      `;
+  <div class="disciplina-header">
+    <span class="disciplina-nome">${disciplina.nome}</span>
+
+    ${
+      window.isAdmin
+        ? `
+      <div class="disciplina-actions">
+        <button class="btn-icon editar">✏️</button>
+        <button class="btn-icon ocultar">👁️</button>
+      </div>
+      `
+        : ""
+    }
+
+    <span class="disciplina-toggle">▶</span>
+  </div>
+
+  <div class="disciplina-conteudo hidden">
+    <p class="empty">Carregando...</p>
+  </div>
+`;
+
 
       const conteudo = bloco.querySelector(".disciplina-conteudo");
       const header = bloco.querySelector(".disciplina-header");
       const toggle = bloco.querySelector(".disciplina-toggle");
+
+if (window.isAdmin) {
+  const btnOcultar = bloco.querySelector(".btn-icon.ocultar");
+  const btnEditar = bloco.querySelector(".btn-icon.editar");
+
+  btnOcultar.addEventListener("click", async (e) => {
+    e.stopPropagation();
+
+    const confirmar = confirm(
+      `Deseja ocultar a disciplina "${disciplina.nome}"?\n\nEssa ação é definitiva.`
+    );
+
+    if (!confirmar) return;
+
+    try {
+      await ocultarDisciplina(disciplina.id);
+      await carregarAvaliacoes();
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao ocultar disciplina.");
+    }
+  });
+
+  btnEditar.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    const modal = document.getElementById("modal-disciplina");
+    const input = document.getElementById("disciplina-nome");
+    const salvar = document.getElementById("salvar-disciplina");
+
+    modal.dataset.editando = disciplina.id;
+    input.value = disciplina.nome;
+
+    salvar.textContent = "Salvar";
+    modal.classList.remove("hidden");
+  });
+}
 
         header.addEventListener("click", async () => {
         const aberto = !conteudo.classList.contains("hidden");

@@ -24,31 +24,36 @@ export function initCriarDisciplina() {
   });
 
   salvar.addEventListener("click", async () => {
-    const nome = input.value.trim();
+  const nome = input.value.trim();
+  if (!nome) {
+    alert("Informe o nome da disciplina.");
+    return;
+  }
 
-    if (!nome) {
-      alert("Informe o nome da disciplina.");
-      return;
-    }
+  salvar.disabled = true;
 
-    salvar.disabled = true;
-    salvar.textContent = "Criando...";
+  try {
+    const editandoId = modal.dataset.editando;
 
-    try {
+    if (editandoId) {
+      await editarDisciplina(editandoId, nome);
+      delete modal.dataset.editando;
+    } else {
       await criarDisciplina(nome);
-
-      modal.classList.add("hidden");
-      input.value = "";
-
-      // Atualiza lista de avaliações
-      await carregarAvaliacoes();
-
-    } catch (err) {
-      console.error(err);
-      alert("Erro ao criar disciplina.");
-    } finally {
-      salvar.disabled = false;
-      salvar.textContent = "Criar";
     }
-  });
+
+    modal.classList.add("hidden");
+    input.value = "";
+    salvar.textContent = "Criar";
+
+    await carregarAvaliacoes();
+
+  } catch (err) {
+    console.error(err);
+    alert("Erro ao salvar disciplina.");
+  } finally {
+    salvar.disabled = false;
+  }
+});
+
 }
