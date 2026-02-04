@@ -320,3 +320,16 @@ main {
 .avaliacao-titulo {
   font-weight: 500;
 }
+
+.avaliacao-postagem {
+  font-size: 0.75rem;
+  opacity: 0.55;
+  margin-left: auto;
+}
+
+.avaliacao-data-evento {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: #000;
+  font-weight: 500;
+}

@@ -133,11 +133,10 @@ if (window.isAdmin) {
                 item.className = "avaliacao-item";
 
                 const dataEvento = av.data?.toDate
-  ? av.data.toDate().toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric"
-    })
+  ? new Date(
+      av.data.toDate().getTime() +
+      av.data.toDate().getTimezoneOffset() * 60000
+    ).toLocaleDateString("pt-BR")
   : "";
 
 const postadoEm = av.criadoEm?.toDate
@@ -147,17 +146,14 @@ const postadoEm = av.criadoEm?.toDate
   : "";
 
 item.innerHTML = `
-  <div class="avaliacao-resumo">
+<div class="avaliacao-resumo">
+  <div class="avaliacao-linha-superior">
     <span class="avaliacao-tipo ${av.tipo}">
       ${av.tipo === "prova" ? "Prova" : "Trabalho"}
     </span>
 
-    <span class="avaliacao-titulo">${av.titulo}</span>
-
-    <span class="avaliacao-data">📅 ${dataEvento}</span>
-
     <span class="avaliacao-postagem">
-      Postado em ${postadoEm}
+      ${postadoEm}
     </span>
 
     ${window.isAdmin ? `
@@ -166,6 +162,14 @@ item.innerHTML = `
         <button class="btn-icon ocultar">👁️</button>
       </div>
     ` : ""}
+  </div>
+
+  <div class="avaliacao-titulo">
+    ${av.titulo}
+  </div>
+
+  <div class="avaliacao-data-evento">
+    📅 ${dataEvento}
   </div>
 
   <div class="avaliacao-descricao hidden">
