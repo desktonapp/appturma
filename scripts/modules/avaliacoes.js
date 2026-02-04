@@ -132,40 +132,47 @@ if (window.isAdmin) {
                 const item = document.createElement("div");
                 item.className = "avaliacao-item";
 
-                const data = av.data?.toDate
-                  ? av.data.toDate().toLocaleString("pt-BR")
-                  : "";
+                const dataEvento = av.data?.toDate
+  ? av.data.toDate().toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    })
+  : "";
 
-                item.innerHTML = `
+const postadoEm = av.criadoEm?.toDate
+  ? av.criadoEm.toDate().toLocaleString("pt-BR", {
+      timeZone: "America/Sao_Paulo"
+    })
+  : "";
+
+item.innerHTML = `
   <div class="avaliacao-resumo">
     <span class="avaliacao-tipo ${av.tipo}">
       ${av.tipo === "prova" ? "Prova" : "Trabalho"}
     </span>
 
-    <span class="avaliacao-titulo">
-      ${av.titulo}
+    <span class="avaliacao-titulo">${av.titulo}</span>
+
+    <span class="avaliacao-data">📅 ${dataEvento}</span>
+
+    <span class="avaliacao-postagem">
+      Postado em ${postadoEm}
     </span>
 
-    <span class="avaliacao-data">
-      ${data}
-    </span>
-
-    ${
-      window.isAdmin
-        ? `
+    ${window.isAdmin ? `
       <div class="avaliacao-actions">
         <button class="btn-icon editar">✏️</button>
         <button class="btn-icon ocultar">👁️</button>
       </div>
-      `
-        : ""
-    }
+    ` : ""}
   </div>
 
   <div class="avaliacao-descricao hidden">
     ${av.descricao || ""}
   </div>
 `;
+
 
 if (window.isAdmin) {
   const btnEditar = item.querySelector(".btn-icon.editar");
