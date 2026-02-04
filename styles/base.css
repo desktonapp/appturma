@@ -168,3 +168,14 @@ main {
 .btn-secondary {
   background: #6b7280;
 }
+
+.btn-small {
+  padding: 4px 8px;
+  font-size: 0.8rem;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: white;
+}
+

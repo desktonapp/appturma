@@ -1,5 +1,5 @@
 // anuncios.js
-import { listarAnuncios, criarAnuncio } from "../services/firestore.js";
+import { listarAnuncios, criarAnuncio, ocultarAnuncio } from "../services/firestore.js";
 
 console.log("anuncios.js carregou");
 
@@ -24,7 +24,32 @@ export async function carregarAnuncios() {
       card.innerHTML = `
   <strong>${anuncio.titulo}</strong>
   <p>${anuncio.descricao}</p>
+
+  ${
+    window.isAdmin
+      ? `<button class="btn btn-small btn-danger" data-id="${anuncio.id}">
+           Ocultar
+         </button>`
+      : ""
+  }
 `;
+
+if (window.isAdmin) {
+  const btnOcultar = card.querySelector("button[data-id]");
+  btnOcultar.addEventListener("click", async () => {
+    const confirmar = confirm("Deseja ocultar este anúncio?");
+    if (!confirmar) return;
+
+    try {
+      await ocultarAnuncio(anuncio.id);
+      carregarAnuncios(); // atualiza lista
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao ocultar anúncio.");
+    }
+  });
+}
+
       container.appendChild(card);
     });
 
