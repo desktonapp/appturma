@@ -117,10 +117,11 @@ main {
 
 /* Footer */
 .app-footer {
+  margin-top: 32px;
+  padding: 16px 0;
   text-align: center;
-  padding: 16px;
-  font-size: 0.8rem;
-  color: var(--muted);
+  color: #8a8a8a;
+  font-size: 0.85rem;
 }
 
 /* Modal */
