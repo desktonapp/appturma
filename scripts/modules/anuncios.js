@@ -1,5 +1,9 @@
 // anuncios.js
-import { listarAnuncios, criarAnuncio, ocultarAnuncio } from "../services/firestore.js";
+import {
+  listarAnuncios,
+  criarAnuncio,
+  ocultarAnuncio
+} from "../services/firestore.js";
 
 console.log("anuncios.js carregou");
 
@@ -15,50 +19,62 @@ export async function carregarAnuncios() {
       return;
     }
 
-    const data = anuncio.criadoEm?.toDate
-  ? anuncio.criadoEm.toDate()
-  : null;
+    container.innerHTML = "";
 
-const dataFormatada = data
-  ? data.toLocaleDateString("pt-BR") + " " +
-    data.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
-  : "";
+    anuncios.forEach(anuncio => {
+      // filtro defensivo
+      if (anuncio.ativo === false) return;
 
-card.innerHTML = `
-  <div class="anuncio-header">
-    <span class="anuncio-titulo">${anuncio.titulo}</span>
-    <span class="anuncio-data">${dataFormatada}</span>
-  </div>
+      const card = document.createElement("div");
+      card.className = "anuncio-item";
 
-  <div class="anuncio-descricao">
-    ${anuncio.descricao}
-  </div>
+      const data = anuncio.criadoEm?.toDate
+        ? anuncio.criadoEm.toDate()
+        : null;
 
-  ${
-    window.isAdmin
-      ? `<button class="btn btn-small btn-danger" data-id="${anuncio.id}">
-           Ocultar
-         </button>`
-      : ""
-  }
-`;
+      const dataFormatada = data
+        ? data.toLocaleDateString("pt-BR") + " " +
+          data.toLocaleTimeString("pt-BR", {
+            hour: "2-digit",
+            minute: "2-digit"
+          })
+        : "";
 
+      card.innerHTML = `
+        <div class="anuncio-header">
+          <span class="anuncio-titulo">${anuncio.titulo}</span>
+          <span class="anuncio-data">${dataFormatada}</span>
+        </div>
 
-if (window.isAdmin) {
-  const btnOcultar = card.querySelector("button[data-id]");
-  btnOcultar.addEventListener("click", async () => {
-    const confirmar = confirm("Deseja ocultar este anúncio?");
-    if (!confirmar) return;
+        <div class="anuncio-descricao">
+          ${anuncio.descricao}
+        </div>
 
-    try {
-      await ocultarAnuncio(anuncio.id);
-      carregarAnuncios(); // atualiza lista
-    } catch (err) {
-      console.error(err);
-      alert("Erro ao ocultar anúncio.");
-    }
-  });
-}
+        ${
+          window.isAdmin
+            ? `<button class="btn btn-small btn-danger" data-id="${anuncio.id}">
+                 Ocultar
+               </button>`
+            : ""
+        }
+      `;
+
+      // botão ocultar
+      if (window.isAdmin) {
+        const btnOcultar = card.querySelector("button[data-id]");
+        btnOcultar.addEventListener("click", async () => {
+          const confirmar = confirm("Deseja ocultar este anúncio?");
+          if (!confirmar) return;
+
+          try {
+            await ocultarAnuncio(anuncio.id);
+            carregarAnuncios();
+          } catch (err) {
+            console.error(err);
+            alert("Erro ao ocultar anúncio.");
+          }
+        });
+      }
 
       container.appendChild(card);
     });
@@ -72,9 +88,8 @@ if (window.isAdmin) {
 export function initCriarAnuncio() {
   if (!window.isAdmin) return;
 
-  const btnCriar = document.querySelector(
-    ".card button.admin-only"
-  );
+  const btnCriar = document.querySelector(".card button.admin-only");
+  if (!btnCriar) return;
 
   const modal = document.getElementById("modal-anuncio");
   const cancelar = document.getElementById("cancelar-anuncio");
@@ -93,41 +108,35 @@ export function initCriarAnuncio() {
   });
 
   salvar.addEventListener("click", async () => {
-  const titulo = inputTitulo.value.trim();
-  const descricao = inputDescricao.value.trim();
+    const titulo = inputTitulo.value.trim();
+    const descricao = inputDescricao.value.trim();
 
-  if (!titulo || !descricao) {
-    alert("Preencha título e descrição.");
-    return;
+    if (!titulo || !descricao) {
+      alert("Preencha título e descrição.");
+      return;
+    }
+
+    salvar.disabled = true;
+    salvar.textContent = "Publicando...";
+
+    try {
+      await criarAnuncio({ titulo, descricao });
+
+      modal.classList.add("hidden");
+      limpar();
+      carregarAnuncios();
+
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao criar anúncio.");
+    } finally {
+      salvar.disabled = false;
+      salvar.textContent = "Publicar";
+    }
+  });
+
+  function limpar() {
+    inputTitulo.value = "";
+    inputDescricao.value = "";
   }
-
-  salvar.disabled = true;
-  salvar.textContent = "Publicando...";
-
-  try {
-    await criarAnuncio({
-      titulo,
-      descricao
-    });
-
-    modal.classList.add("hidden");
-    limpar();
-    carregarAnuncios();
-
-  } catch (err) {
-    console.error(err);
-    alert("Erro ao criar anúncio.");
-  } finally {
-    salvar.disabled = false;
-    salvar.textContent = "Publicar";
-  }
-});
-
-
-
-function limpar() {
-  inputTitulo.value = "";
-  inputDescricao.value = "";
-}
-
 }
