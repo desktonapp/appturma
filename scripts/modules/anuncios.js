@@ -41,23 +41,25 @@ export async function carregarAnuncios() {
         : "";
 
       card.innerHTML = `
-        <div class="anuncio-header">
-          <span class="anuncio-titulo">${anuncio.titulo}</span>
-          <span class="anuncio-data">${dataFormatada}</span>
-        </div>
+  <strong class="anuncio-titulo">${anuncio.titulo}</strong>
 
-        <div class="anuncio-descricao">
-          ${anuncio.descricao}
-        </div>
+  ${
+    anuncio.categoria
+      ? `<span class="anuncio-categoria">${anuncio.categoria}</span>`
+      : ""
+  }
 
-        ${
-          window.isAdmin
-            ? `<button class="btn btn-small btn-danger" data-id="${anuncio.id}">
-                 Ocultar
-               </button>`
-            : ""
-        }
-      `;
+  <p>${anuncio.descricao}</p>
+
+  ${
+    window.isAdmin
+      ? `<button class="btn btn-small btn-danger" data-id="${anuncio.id}">
+           Ocultar
+         </button>`
+      : ""
+  }
+`;
+
 
       // botão ocultar
       if (window.isAdmin) {
@@ -96,6 +98,7 @@ export function initCriarAnuncio() {
   const salvar = document.getElementById("salvar-anuncio");
 
   const inputTitulo = document.getElementById("anuncio-titulo");
+  const inputCategoria = document.getElementById("anuncio-categoria");
   const inputDescricao = document.getElementById("anuncio-descricao");
 
   btnCriar.addEventListener("click", () => {
@@ -120,7 +123,12 @@ export function initCriarAnuncio() {
     salvar.textContent = "Publicando...";
 
     try {
-      await criarAnuncio({ titulo, descricao });
+      await criarAnuncio({
+  titulo,
+  categoria: inputCategoria.value.trim(),
+  descricao
+});
+
 
       modal.classList.add("hidden");
       limpar();
@@ -136,7 +144,9 @@ export function initCriarAnuncio() {
   });
 
   function limpar() {
-    inputTitulo.value = "";
-    inputDescricao.value = "";
-  }
+  inputTitulo.value = "";
+  inputCategoria.value = "";
+  inputDescricao.value = "";
+}
+
 }

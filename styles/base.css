@@ -208,3 +208,14 @@ main {
   margin-top: 6px;
   font-size: 0.9rem;
 }
+
+.anuncio-categoria {
+  display: inline-block;
+  margin: 6px 0 8px 0;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 999px; /* pill */
+  background: #e5e7eb; /* cinza claro */
+  color: #374151; /* cinza escuro */
+}
