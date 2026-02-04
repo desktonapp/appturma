@@ -18,6 +18,8 @@ export async function carregarAnuncios() {
     container.innerHTML = "";
 
     anuncios.forEach(anuncio => {
+      if (anuncio.ativo === false) return;
+
       const card = document.createElement("div");
       card.className = "anuncio-item";
 

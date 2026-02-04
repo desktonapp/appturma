@@ -21,16 +21,19 @@ console.log("firestore.js carregou");
 
 export async function listarAnuncios() {
   const q = query(
-    collection(db, "anuncios")
+    collection(db, "anuncios"),
+    where("ativo", "==", true),
+    orderBy("criadoEm", "desc")
   );
 
-  const snapshot = await getDocs(q);
+  const snapshot = await getDocs(q, { source: "server" });
 
   return snapshot.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
   }));
 }
+
 
 export async function criarAnuncio(dados, token) {
   return addDoc(
