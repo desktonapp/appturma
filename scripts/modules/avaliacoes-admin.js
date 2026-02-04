@@ -1,4 +1,7 @@
-import { criarAvaliacao } from "../services/firestore.js";
+import {
+  criarAvaliacao,
+  editarAvaliacao
+} from "../services/firestore.js";
 import { carregarAvaliacoes } from "./avaliacoes.js";
 
 export function initCriarAvaliacao() {
@@ -28,37 +31,49 @@ export function initCriarAvaliacao() {
   });
 
   salvar.addEventListener("click", async () => {
-    if (!modal.dataset.disciplinaId) return;
+  const disciplinaId = modal.dataset.disciplinaId;
 
-    if (!titulo.value || !data.value) {
-      alert("Informe título e data.");
-      return;
-    }
+  if (!disciplinaId) return;
 
-    salvar.disabled = true;
-    salvar.textContent = "Criando...";
+  if (!titulo.value.trim() || !data.value) {
+    alert("Informe título e data.");
+    return;
+  }
 
-    try {
+  salvar.disabled = true;
+
+  try {
+    const editandoId = modal.dataset.editando;
+
+    const payload = {
+      tipo: tipo.value,
+      titulo: titulo.value.trim(),
+      descricao: descricao.value.trim(),
+      data: new Date(data.value)
+    };
+
+    if (editandoId) {
+      await editarAvaliacao(editandoId, payload);
+      delete modal.dataset.editando;
+    } else {
       await criarAvaliacao({
-        disciplinaId: modal.dataset.disciplinaId,
-        tipo: tipo.value,
-        titulo: titulo.value.trim(),
-        descricao: descricao.value.trim(),
-        data: new Date(data.value)
+        disciplinaId,
+        ...payload
       });
-
-      modal.classList.add("hidden");
-      limpar();
-      await carregarAvaliacoes();
-
-    } catch (err) {
-      console.error(err);
-      alert("Erro ao criar avaliação.");
-    } finally {
-      salvar.disabled = false;
-      salvar.textContent = "Criar";
     }
-  });
+
+    fecharModal();
+    await carregarAvaliacoes();
+
+  } catch (err) {
+    console.error(err);
+    alert("Erro ao salvar avaliação.");
+  } finally {
+    salvar.disabled = false;
+    salvar.textContent = "Criar";
+  }
+});
+
 
   function limpar() {
     tipo.value = "prova";

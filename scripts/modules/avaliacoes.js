@@ -2,7 +2,9 @@ import {
   listarDisciplinas,
   listarAvaliacoesPorDisciplina,
   editarDisciplina,
-  ocultarDisciplina
+  ocultarDisciplina,
+  editarAvaliacao,
+  ocultarAvaliacao
 } from "../services/firestore.js";
 
 console.log("AVALIAÇÕES.JS NOVO CARREGADO");
@@ -135,32 +137,96 @@ if (window.isAdmin) {
                   : "";
 
                 item.innerHTML = `
-                  <div class="avaliacao-resumo">
-                    <span class="avaliacao-tipo ${av.tipo}">
-                      ${av.tipo === "prova" ? "Prova" : "Trabalho"}
-                    </span>
+  <div class="avaliacao-resumo">
+    <span class="avaliacao-tipo ${av.tipo}">
+      ${av.tipo === "prova" ? "Prova" : "Trabalho"}
+    </span>
 
-                    <span class="avaliacao-titulo">
-                      ${av.titulo}
-                    </span>
+    <span class="avaliacao-titulo">
+      ${av.titulo}
+    </span>
 
-                    <span class="avaliacao-data">
-                      ${data}
-                    </span>
-                  </div>
+    <span class="avaliacao-data">
+      ${data}
+    </span>
 
-                  <div class="avaliacao-descricao hidden">
-                    ${av.descricao || ""}
-                  </div>
-                `;
+    ${
+      window.isAdmin
+        ? `
+      <div class="avaliacao-actions">
+        <button class="btn-icon editar">✏️</button>
+        <button class="btn-icon ocultar">👁️</button>
+      </div>
+      `
+        : ""
+    }
+  </div>
+
+  <div class="avaliacao-descricao hidden">
+    ${av.descricao || ""}
+  </div>
+`;
+
+if (window.isAdmin) {
+  const btnEditar = item.querySelector(".btn-icon.editar");
+  const btnOcultar = item.querySelector(".btn-icon.ocultar");
+
+  // EDITAR
+  btnEditar.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    const modal = document.getElementById("modal-avaliacao");
+
+    modal.dataset.editando = av.id;
+    modal.dataset.disciplinaId = av.disciplinaId;
+
+    document.getElementById("avaliacao-tipo").value = av.tipo;
+    document.getElementById("avaliacao-titulo").value = av.titulo;
+    document.getElementById("avaliacao-data").value =
+      av.data?.toDate
+        ? av.data.toDate().toISOString().split("T")[0]
+        : "";
+
+    document.getElementById("avaliacao-descricao").value =
+      av.descricao || "";
+
+    document.getElementById("salvar-avaliacao").textContent = "Salvar";
+
+    modal.classList.remove("hidden");
+  });
+
+  // OCULTAR
+  btnOcultar.addEventListener("click", async (e) => {
+    e.stopPropagation();
+
+    const confirmar = confirm(
+      `Deseja ocultar esta avaliação?\n\nEssa ação é definitiva.`
+    );
+
+    if (!confirmar) return;
+
+    try {
+      await ocultarAvaliacao(av.id);
+      await carregarAvaliacoes();
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao ocultar avaliação.");
+    }
+  });
+}
+
+
 
                 item
-                  .querySelector(".avaliacao-resumo")
-                  .addEventListener("click", () => {
-                    item
-                      .querySelector(".avaliacao-descricao")
-                      .classList.toggle("hidden");
-                  });
+  .querySelector(".avaliacao-resumo")
+  .addEventListener("click", (e) => {
+    if (e.target.closest(".avaliacao-actions")) return;
+
+    item
+      .querySelector(".avaliacao-descricao")
+      .classList.toggle("hidden");
+  });
+
 
                 avaliacoesContainer.appendChild(item);
               });

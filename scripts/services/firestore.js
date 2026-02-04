@@ -120,3 +120,15 @@ export async function criarAvaliacao(dados) {
     criadoEm: serverTimestamp()
   });
 }
+
+export async function editarAvaliacao(id, dados) {
+  const ref = doc(db, "avaliacoes", id);
+  return updateDoc(ref, dados);
+}
+
+export async function ocultarAvaliacao(id) {
+  const ref = doc(db, "avaliacoes", id);
+  return updateDoc(ref, {
+    ativo: false
+  });
+}
