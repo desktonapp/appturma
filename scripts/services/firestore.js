@@ -132,3 +132,23 @@ export async function ocultarAvaliacao(id) {
     ativo: false
   });
 }
+
+// =======================
+// AVALIAÇÕES (HOME)
+// =======================
+
+export async function listarAvaliacoesAtivas() {
+  const q = query(
+    collection(db, "avaliacoes"),
+    where("ativo", "==", true),
+    orderBy("data", "asc")
+  );
+
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+}
+

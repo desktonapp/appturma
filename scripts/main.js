@@ -6,6 +6,8 @@ import { carregarAnuncios, initCriarAnuncio } from "./modules/anuncios.js";
 import { carregarAvaliacoes } from "./modules/avaliacoes.js";
 import { initCriarDisciplina } from "./modules/disciplinas.js";
 import { initCriarAvaliacao } from "./modules/avaliacoes-admin.js";
+import { carregarAvaliacoesHome } from "./modules/home-avaliacoes.js";
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -45,7 +47,7 @@ function initApp() {
   carregarAvaliacoes();
   initCriarDisciplina();
   initCriarAvaliacao();
-
+  carregarAvaliacoesHome();
 }
 
 
