@@ -148,15 +148,28 @@ const postadoEm = av.criadoEm?.toDate
 item.innerHTML = `
   <div class="avaliacao-card">
 
-    <!-- Linha 1: Título + data de postagem -->
+    <!-- Linha 1: Título + data de postagem + ações -->
     <div class="avaliacao-topo">
-      <span class="avaliacao-titulo">
-        ${av.titulo}
-      </span>
+      <div class="avaliacao-topo-texto">
+        <span class="avaliacao-titulo">
+          ${av.titulo}
+        </span>
 
-      <span class="avaliacao-postagem">
-        ${postadoEm}
-      </span>
+        <span class="avaliacao-postagem">
+          ${postadoEm}
+        </span>
+      </div>
+
+      ${
+        window.isAdmin
+          ? `
+        <div class="avaliacao-actions">
+          <button class="btn-icon editar">✏️</button>
+          <button class="btn-icon ocultar">👁️</button>
+        </div>
+        `
+          : ""
+      }
     </div>
 
     <!-- Linha 2: Tipo -->
@@ -175,6 +188,8 @@ item.innerHTML = `
     </div>
 
   </div>
+`;
+
 `;
 
 
@@ -229,8 +244,8 @@ if (window.isAdmin) {
 
 
 
-                item
-  .querySelector(".avaliacao-resumo")
+item
+  .querySelector(".avaliacao-card")
   .addEventListener("click", (e) => {
     if (e.target.closest(".avaliacao-actions")) return;
 
@@ -238,7 +253,6 @@ if (window.isAdmin) {
       .querySelector(".avaliacao-descricao")
       .classList.toggle("hidden");
   });
-
 
                 avaliacoesContainer.appendChild(item);
               });
