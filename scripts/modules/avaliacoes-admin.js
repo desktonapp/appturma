@@ -3,6 +3,7 @@ import {
   editarAvaliacao
 } from "../services/firestore.js";
 import { carregarAvaliacoes } from "./avaliacoes.js";
+import { Timestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 export function initCriarAvaliacao() {
   if (!window.isAdmin) return;
@@ -57,7 +58,7 @@ export function initCriarAvaliacao() {
       tipo: tipo.value,
       titulo: titulo.value.trim(),
       descricao: descricao.value.trim(),
-      data: new Date(data.value)
+      data: Timestamp.fromDate(new Date(data.value))
     };
 
     if (editandoId) {

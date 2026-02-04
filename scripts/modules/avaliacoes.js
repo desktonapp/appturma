@@ -133,7 +133,7 @@ if (window.isAdmin) {
                 item.className = "avaliacao-item";
 
                 const data = av.data?.toDate
-                  ? av.data.toDate().toLocaleDateString("pt-BR")
+                  ? av.data.toDate().toLocaleString("pt-BR")
                   : "";
 
                 item.innerHTML = `

@@ -33,7 +33,7 @@ export async function carregarAnuncios() {
         : null;
 
       const dataFormatada = data
-        ? data.toLocaleDateString("pt-BR") + " " +
+        ? data.toLocaleString("pt-BR") + " " +
           data.toLocaleTimeString("pt-BR", {
             hour: "2-digit",
             minute: "2-digit"
