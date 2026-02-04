@@ -1,5 +1,10 @@
-import { criarDisciplina } from "../services/firestore.js";
+import {
+  criarDisciplina,
+  editarDisciplina
+} from "../services/firestore.js";
+
 import { carregarAvaliacoes } from "./avaliacoes.js";
+
 
 export function initCriarDisciplina() {
   if (!window.isAdmin) return;
