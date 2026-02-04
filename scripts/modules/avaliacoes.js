@@ -1,9 +1,9 @@
-console.log("AVALIAÇÕES.JS NOVO CARREGADO");
-
 import {
   listarDisciplinas,
   listarAvaliacoesPorDisciplina
 } from "../services/firestore.js";
+
+console.log("AVALIAÇÕES.JS NOVO CARREGADO");
 
 export async function carregarAvaliacoes() {
   const container = document.getElementById("avaliacoes-list");
