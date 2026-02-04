@@ -146,36 +146,37 @@ const postadoEm = av.criadoEm?.toDate
   : "";
 
 item.innerHTML = `
-<div class="avaliacao-resumo">
-  <div class="avaliacao-linha-superior">
-    <span class="avaliacao-tipo ${av.tipo}">
+  <div class="avaliacao-card">
+
+    <!-- Linha 1: Título + data de postagem -->
+    <div class="avaliacao-topo">
+      <span class="avaliacao-titulo">
+        ${av.titulo}
+      </span>
+
+      <span class="avaliacao-postagem">
+        ${postadoEm}
+      </span>
+    </div>
+
+    <!-- Linha 2: Tipo -->
+    <div class="avaliacao-tipo-badge ${av.tipo}">
       ${av.tipo === "prova" ? "Prova" : "Trabalho"}
-    </span>
+    </div>
 
-    <span class="avaliacao-postagem">
-      ${postadoEm}
-    </span>
+    <!-- Linha 3: Data do evento -->
+    <div class="avaliacao-data-evento">
+      📅 ${dataEvento}
+    </div>
 
-    ${window.isAdmin ? `
-      <div class="avaliacao-actions">
-        <button class="btn-icon editar">✏️</button>
-        <button class="btn-icon ocultar">👁️</button>
-      </div>
-    ` : ""}
-  </div>
+    <!-- Linha 4: Descrição -->
+    <div class="avaliacao-descricao hidden">
+      ${av.descricao || ""}
+    </div>
 
-  <div class="avaliacao-titulo">
-    ${av.titulo}
-  </div>
-
-  <div class="avaliacao-data-evento">
-    📅 ${dataEvento}
-  </div>
-
-  <div class="avaliacao-descricao hidden">
-    ${av.descricao || ""}
   </div>
 `;
+
 
 
 if (window.isAdmin) {
