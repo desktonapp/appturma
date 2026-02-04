@@ -1,6 +1,5 @@
 // anuncios.js
 import { listarAnuncios, criarAnuncio } from "../services/firestore.js";
-import { uploadPDF } from "../services/storage.js";
 
 console.log("anuncios.js carregou");
 
@@ -25,14 +24,6 @@ export async function carregarAnuncios() {
       card.innerHTML = `
   <strong>${anuncio.titulo}</strong>
   <p>${anuncio.descricao}</p>
-
-  ${
-    anuncio.pdfUrl
-      ? `<a href="${anuncio.pdfUrl}" target="_blank" class="pdf-link">
-           📄 Ver PDF
-         </a>`
-      : ""
-  }
 `;
       container.appendChild(card);
     });
@@ -69,7 +60,6 @@ export function initCriarAnuncio() {
   salvar.addEventListener("click", async () => {
   const titulo = inputTitulo.value.trim();
   const descricao = inputDescricao.value.trim();
-  const file = document.getElementById("anuncio-pdf").files[0];
 
   if (!titulo || !descricao) {
     alert("Preencha título e descrição.");
@@ -80,16 +70,9 @@ export function initCriarAnuncio() {
   salvar.textContent = "Publicando...";
 
   try {
-    let pdfUrl = null;
-
-    if (file) {
-      pdfUrl = await uploadPDF(file);
-    }
-
     await criarAnuncio({
       titulo,
-      descricao,
-      pdfUrl
+      descricao
     });
 
     modal.classList.add("hidden");
@@ -106,10 +89,10 @@ export function initCriarAnuncio() {
 });
 
 
-  function limpar() {
+
+function limpar() {
   inputTitulo.value = "";
   inputDescricao.value = "";
-  document.getElementById("anuncio-pdf").value = "";
 }
 
 }
