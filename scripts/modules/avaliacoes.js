@@ -190,10 +190,6 @@ item.innerHTML = `
   </div>
 `;
 
-`;
-
-
-
 if (window.isAdmin) {
   const btnEditar = item.querySelector(".btn-icon.editar");
   const btnOcultar = item.querySelector(".btn-icon.ocultar");
