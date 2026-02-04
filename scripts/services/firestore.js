@@ -26,7 +26,7 @@ export async function listarAnuncios() {
     orderBy("criadoEm", "desc")
   );
 
-  const snapshot = await getDocs(q, { source: "server" });
+  const snapshot = await getDocs(q);
 
   return snapshot.docs.map(doc => ({
     id: doc.id,
@@ -34,30 +34,19 @@ export async function listarAnuncios() {
   }));
 }
 
-
-export async function criarAnuncio(dados, token) {
-  return addDoc(
-    collection(db, "anuncios"),
-    {
-      ...dados,
-      ativo: true,
-      criadoEm: serverTimestamp()
-    },
-    {
-      params: { token }
-    }
-  );
+export async function criarAnuncio(dados) {
+  return addDoc(collection(db, "anuncios"), {
+    ...dados,
+    ativo: true,
+    criadoEm: serverTimestamp()
+  });
 }
 
-export async function ocultarAnuncio(id, token) {
+export async function ocultarAnuncio(id) {
   const ref = doc(db, "anuncios", id);
-
-  return updateDoc(
-    ref,
-    { ativo: false },
-    { params: { token } }
-  );
+  return updateDoc(ref, { ativo: false });
 }
+
 
 /* =======================
    DISCIPLINAS
@@ -96,4 +85,12 @@ export async function listarAvaliacoesPorDisciplina(disciplinaId) {
     id: doc.id,
     ...doc.data()
   }));
+}
+
+export async function criarDisciplina(nome) {
+  return await addDoc(collection(db, "disciplinas"), {
+    nome: nome,
+    ativo: true,
+    criadoEm: serverTimestamp()
+  });
 }
