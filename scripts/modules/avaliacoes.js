@@ -98,5 +98,4 @@ export async function carregarAvaliacoes() {
         "<p class='empty'>Erro ao carregar avaliações.</p>";
     }
   }
-});
 
