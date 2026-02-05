@@ -377,3 +377,27 @@ main {
 .pdf-viewer iframe {
   background: #fff;
 }
+
+.ementa-item {
+  border-bottom: 1px solid #eee;
+}
+
+.ementa-toggle {
+  width: 100%;
+  text-align: left;
+  padding: 14px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.ementa-pdf iframe {
+  width: 100%;
+  height: 700px;
+  border: none;
+}
+
+.hidden {
+  display: none;
+}

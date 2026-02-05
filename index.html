@@ -221,7 +221,89 @@
   </div>
 </section>
 
-<section id="ementas" class="section"></section>
+<section id="ementas" class="section">
+  <div class="card">
+    <h2>📖 Ementas</h2>
+
+    <div class="ementas-lista">
+
+      <!-- ITEM -->
+      <div class="ementa-item">
+        <button class="ementa-toggle" data-pdf="assets/ementas/estudos-culturais.pdf">
+          Estudos Culturais
+        </button>
+        <div class="ementa-pdf hidden">
+          <iframe src="assets/ementas/estudos-culturais.pdf"></iframe>
+        </div>
+      </div>
+
+      <div class="ementa-item">
+        <button class="ementa-toggle" data-pdf="assets/ementas/estagio-evangelizacao.pdf">
+          Estágio em Evangelização
+        </button>
+        <div class="ementa-pdf hidden">
+          <iframe src="assets/ementas/estagio-evangelizacao.pdf"></iframe>
+        </div>
+      </div>
+
+      <div class="ementa-item">
+        <button class="ementa-toggle" data-pdf="assets/ementas/fundamentos-crescimento-igreja.pdf">
+          Fundamentos do Crescimento da Igreja
+        </button>
+        <div class="ementa-pdf hidden">
+          <iframe src="assets/ementas/fundamentos-crescimento-igreja.pdf"></iframe>
+        </div>
+      </div>
+
+      <div class="ementa-item">
+        <button class="ementa-toggle" data-pdf="assets/ementas/homiletica-2.pdf">
+          Homilética II
+        </button>
+        <div class="ementa-pdf hidden">
+          <iframe src="assets/ementas/homiletica-2.pdf"></iframe>
+        </div>
+      </div>
+
+      <div class="ementa-item">
+        <button class="ementa-toggle" data-pdf="assets/ementas/integracao-ensino-comunidade-5.pdf">
+          Integração Ensino e Comunidade V
+        </button>
+        <div class="ementa-pdf hidden">
+          <iframe src="assets/ementas/integracao-ensino-comunidade-5.pdf"></iframe>
+        </div>
+      </div>
+
+      <div class="ementa-item">
+        <button class="ementa-toggle" data-pdf="assets/ementas/musica-sacra.pdf">
+          Música Sacra
+        </button>
+        <div class="ementa-pdf hidden">
+          <iframe src="assets/ementas/musica-sacra.pdf"></iframe>
+        </div>
+      </div>
+
+      <div class="ementa-item">
+        <button class="ementa-toggle" data-pdf="assets/ementas/pp5-metodos-evangelisticos.pdf">
+          PP5 – Métodos Evangelísticos
+        </button>
+        <div class="ementa-pdf hidden">
+          <iframe src="assets/ementas/pp5-metodos-evangelisticos.pdf"></iframe>
+        </div>
+      </div>
+
+      <div class="ementa-item">
+        <button class="ementa-toggle" data-pdf="assets/ementas/panorama-religioso-brasileiro.pdf">
+          Panorama Religioso Brasileiro
+        </button>
+        <div class="ementa-pdf hidden">
+          <iframe src="assets/ementas/panorama-religioso-brasileiro.pdf"></iframe>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
 <section id="calendario" class="section">
   <div class="card">
@@ -301,6 +383,25 @@
   </div>
 </div>
 
+<script>
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".ementa-toggle");
+    if (!btn) return;
+
+    const item = btn.closest(".ementa-item");
+    const pdf = item.querySelector(".ementa-pdf");
+
+    // Fecha todas
+    document.querySelectorAll(".ementa-pdf").forEach(el => {
+      if (el !== pdf) el.classList.add("hidden");
+    });
+
+    // Alterna a atual
+    pdf.classList.toggle("hidden");
+  });
+</script>
+
+
   <!-- FOOTER -->
   <footer class="app-footer">
     <small>
@@ -310,5 +411,4 @@
   
 </body>
 </html>
-
 
